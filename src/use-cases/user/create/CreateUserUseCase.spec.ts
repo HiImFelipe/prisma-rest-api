@@ -36,14 +36,17 @@ describe("CreateUserUseCase", () => {
   });
 
   it("should not create a new user (email already taken)", async () => {
-    MockUserRepository.findByEmail.mockResolvedValueOnce(params);
+    const [_, error] = await sut.execute(params);
 
-    await expect(sut.execute(params)).rejects.toThrow(Error);
+    expect(error!.message).toBe("Email already exists");
   });
 
   it("should throw an error if user is not created", async () => {
+    MockUserRepository.findByEmail.mockResolvedValueOnce(null);
     MockUserRepository.create.mockResolvedValueOnce(null);
 
-    await expect(sut.execute(params)).rejects.toThrow(Error);
+    const [_, error] = await sut.execute(params);
+
+    expect(error!.message).toBe("Error while creating user");
   });
 });
