@@ -7,7 +7,7 @@ export class PrismaUserRepository implements UserRepository {
   async create(user: User): Promise<User | null> {
     try {
       const prismaUser = await prismaClient.user.create({
-        data: user,
+        data: this.convertInternalUserToPrismaUser(user),
       });
 
       return this.convertPrismaUserToInternalUser(prismaUser);
@@ -26,7 +26,9 @@ export class PrismaUserRepository implements UserRepository {
       });
 
       if (!prismaUser) {
-        throw new Error("User not found");
+        console.log("User not found");
+
+        return null;
       }
 
       return this.convertPrismaUserToInternalUser(prismaUser);
@@ -36,6 +38,7 @@ export class PrismaUserRepository implements UserRepository {
       return null;
     }
   }
+
   async findByEmail(email: string): Promise<User | null> {
     try {
       const prismaUser = await prismaClient.user.findFirst({
@@ -45,7 +48,9 @@ export class PrismaUserRepository implements UserRepository {
       });
 
       if (!prismaUser) {
-        throw new Error("User not found");
+        console.log("User not found");
+
+        return null;
       }
 
       return this.convertPrismaUserToInternalUser(prismaUser);
@@ -113,5 +118,16 @@ export class PrismaUserRepository implements UserRepository {
       name: user.name || "",
       password: user.password,
     });
+  }
+
+  private convertInternalUserToPrismaUser(user: User): PrismaUser {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 }
