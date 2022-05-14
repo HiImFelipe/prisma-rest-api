@@ -52,6 +52,21 @@ but if you truly wanna just compile it first then yeah do this
 
 ```bash
 npm run build
+# yarn build
+
 node dist/index.js
 ```
 
+## Testing
+
+You will not believe me but running tests is a really tough task and **not for everyone**
+that said, here we go:
+
+```
+npm run test
+# yarn test
+```
+
+yeah I was just kidding
+
+coverage is not properly set-up yet so it will be like "wow you test nothing wtf", sorry
