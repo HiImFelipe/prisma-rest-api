@@ -46,6 +46,7 @@ run as a developer to avoid having to compile typescript to javascript
 
 ```bash
 npm run dev
+# yarn dev
 ```
 
 but if you truly wanna just compile it first then yeah do this
