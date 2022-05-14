@@ -64,7 +64,7 @@ You will not believe me but running tests is a really tough task and **not for e
 
 that said, here we go:
 
-```
+```bash
 npm run test
 # yarn test
 ```
