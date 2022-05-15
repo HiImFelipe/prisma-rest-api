@@ -34,15 +34,32 @@ describe("IndexUsersUseCase", () => {
 
       expect(findAll).toHaveBeenCalledWith(params);
     });
+
+    it("should return an error message if findAll fails", async () => {
+      const { findAll } = MockUserRepository;
+
+      findAll.mockResolvedValue(null);
+
+      const [_, error] = await sut.execute(params);
+
+      expect(error).toBeTruthy();
+      expect(error).toEqual({
+        message: "Error while fetching users",
+        status: 500,
+      });
+    });
   });
 
-  describe('return values', () => {
+  describe("return values", () => {
     it("should return values", async () => {
-      const randomNumberFromZeroToTen = Math.floor(Math.random() * 10)
+      const randomNumberFromZeroToTen = Math.floor(Math.random() * 10);
 
       params.limit = randomNumberFromZeroToTen;
 
-      const fakeUsers = Array.from({ length: randomNumberFromZeroToTen }, makeFakeUser);
+      const fakeUsers = Array.from(
+        { length: randomNumberFromZeroToTen },
+        makeFakeUser
+      );
 
       MockUserRepository.findAll.mockResolvedValue(fakeUsers);
 
@@ -50,5 +67,5 @@ describe("IndexUsersUseCase", () => {
 
       expect(users).toStrictEqual(fakeUsers);
     });
-  })
+  });
 });
