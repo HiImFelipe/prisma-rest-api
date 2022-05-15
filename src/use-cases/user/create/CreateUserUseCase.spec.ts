@@ -2,6 +2,7 @@ import { User } from "../../../entities/User";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 import faker from "@faker-js/faker";
 import { MockUserRepository } from "../../../repositories/MockUserRepository";
+import { CreateUserUseCaseParams } from "./types";
 
 const fakeUser = new User({
   name: faker.name.firstName(),
@@ -11,7 +12,7 @@ const fakeUser = new User({
 
 describe("CreateUserUseCase", () => {
   let sut: CreateUserUseCase;
-  let params: User;
+  let params: CreateUserUseCaseParams;
 
   beforeAll(() => {
     MockUserRepository.create.mockResolvedValue(fakeUser);
@@ -20,7 +21,7 @@ describe("CreateUserUseCase", () => {
 
   beforeEach(() => {
     sut = new CreateUserUseCase(MockUserRepository);
-    params = fakeUser;
+    params = { user: fakeUser };
   });
 
   it("should be defined", () => {

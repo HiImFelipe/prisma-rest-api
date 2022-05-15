@@ -22,7 +22,7 @@ export class CreateUserController {
         password: req.body.password,
       });
 
-      const [response, error] = await this.createUserUseCase.execute(user);
+      const [response, error] = await this.createUserUseCase.execute({ user });
 
       if (error) {
         return res
