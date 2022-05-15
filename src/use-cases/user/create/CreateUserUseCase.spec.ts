@@ -1,20 +1,16 @@
 import { User } from "../../../entities/User";
 import { CreateUserUseCase } from "./CreateUserUseCase";
-import faker from "@faker-js/faker";
 import { MockUserRepository } from "../../../repositories/MockUserRepository";
 import { CreateUserUseCaseParams } from "./types";
-
-const fakeUser = new User({
-  name: faker.name.firstName(),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
-});
+import { makeFakeUser } from "../../../helpers/fakers/MakeFakeUser";
 
 describe("CreateUserUseCase", () => {
   let sut: CreateUserUseCase;
   let params: CreateUserUseCaseParams;
+  let fakeUser: User;
 
   beforeAll(() => {
+    fakeUser = makeFakeUser();
     MockUserRepository.create.mockResolvedValue(fakeUser);
     MockUserRepository.findByEmail.mockResolvedValue(fakeUser);
   });
@@ -33,7 +29,7 @@ describe("CreateUserUseCase", () => {
 
     await sut.execute(params);
 
-    expect(MockUserRepository.create).toHaveBeenCalledWith(params);
+    expect(MockUserRepository.create).toHaveBeenCalledWith(params.user);
   });
 
   it("should not create a new user (email already taken)", async () => {
