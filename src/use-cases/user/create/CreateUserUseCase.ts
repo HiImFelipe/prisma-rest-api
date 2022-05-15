@@ -1,10 +1,6 @@
 import { User } from "../../../entities/User";
+import { HttpError } from "../../../helpers/HttpError";
 import { UserRepository } from "../../../repositories/contracts/UserRepository";
-
-type HttpError = {
-  status: number;
-  message: string;
-};
 
 export class CreateUserUseCase {
   constructor(private userRepository: UserRepository) {}
