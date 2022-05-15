@@ -1,14 +1,13 @@
-import { User } from "../../../entities/User";
 import { HttpError } from "../../../helpers/HttpError";
 import { UserRepository } from "../../../repositories/contracts/UserRepository";
-import { CreateUserUseCaseParams } from "./types";
+import { CreateUserUseCaseParams, CreateUserUseCaseResponse } from "./types";
 
 export class CreateUserUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute({
     user,
-  }: CreateUserUseCaseParams): Promise<[User | null, HttpError | null]> {
+  }: CreateUserUseCaseParams): Promise<CreateUserUseCaseResponse> {
     const emailAlreadyExists = await this.userRepository.findByEmail(
       user.email
     );
